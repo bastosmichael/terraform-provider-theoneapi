@@ -6,14 +6,14 @@ import (
 
 type Client struct {
 	// Add fields relevant to your client. For instance:
-	BaseURL    string
-	AuthToken  string
+	BaseURL   string
+	AuthToken string
 }
 
 type Book struct {
-	ID           string
-	Title        string
-	Author       string
+	ID            string
+	Title         string
+	Author        string
 	PublishedDate string // Assuming this is a string. Change accordingly.
 	// Add other fields as per the API spec
 }
