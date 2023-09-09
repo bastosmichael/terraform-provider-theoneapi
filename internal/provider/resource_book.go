@@ -16,27 +16,76 @@ func resourceBook() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			// Add other fields as per your requirements
+			"author": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"published_date": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			// Continue with other fields as per your OpenAPI spec
 		},
 	}
 }
 
 func resourceBookCreate(d *schema.ResourceData, m interface{}) error {
-	// Your create logic here
-	return nil
+	client := m.(*Client)
+
+	book := &Book{
+		Title:  d.Get("title").(string),
+		Author: d.Get("author").(string),
+		// and so on...
+	}
+
+	createdBook, err := client.CreateBook(book)
+	if err != nil {
+		return err
+	}
+
+	d.SetId(createdBook.ID)
+	return resourceBookRead(d, m)
 }
 
 func resourceBookRead(d *schema.ResourceData, m interface{}) error {
-	// Your read logic here
+	client := m.(*Client)
+
+	book, err := client.GetBook(d.Id())
+	if err != nil {
+		return err
+	}
+
+	d.Set("title", book.Title)
+	d.Set("author", book.Author)
+	// Continue with other fields
+
 	return nil
 }
 
 func resourceBookUpdate(d *schema.ResourceData, m interface{}) error {
-	// Your update logic here
-	return nil
+	client := m.(*Client)
+
+	book := &Book{
+		Title:  d.Get("title").(string),
+		Author: d.Get("author").(string),
+		// and so on...
+	}
+
+	_, err := client.UpdateBook(d.Id(), book)
+	if err != nil {
+		return err
+	}
+
+	return resourceBookRead(d, m)
 }
 
 func resourceBookDelete(d *schema.ResourceData, m interface{}) error {
-	// Your delete logic here
+	client := m.(*Client)
+
+	err := client.DeleteBook(d.Id())
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
