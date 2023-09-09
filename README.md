@@ -1,64 +1,108 @@
-# Terraform Provider Scaffolding (Terraform Plugin Framework)
+# The One API Terraform Provider (Terraform Plugin Framework)
 
-_This template repository is built on the [Terraform Plugin Framework](https://github.com/hashicorp/terraform-plugin-framework). The template repository built on the [Terraform Plugin SDK](https://github.com/hashicorp/terraform-plugin-sdk) can be found at [terraform-provider-scaffolding](https://github.com/hashicorp/terraform-provider-scaffolding). See [Which SDK Should I Use?](https://developer.hashicorp.com/terraform/plugin/framework-benefits) in the Terraform documentation for additional information._
+This repository contains a Terraform provider that allows you to manage resources through the One API.
 
-This repository is a *template* for a [Terraform](https://www.terraform.io) provider. It is intended as a starting point for creating Terraform providers, containing:
+## Prerequisites
 
-- A resource and a data source (`internal/provider/`),
-- Examples (`examples/`) and generated documentation (`docs/`),
-- Miscellaneous meta files.
+- [Go](https://golang.org/doc/install) >= 1.16
+- [Terraform](https://www.terraform.io/downloads.html) >= 0.14.x
+- Access to the One API.
 
-These files contain boilerplate code that you will need to edit to create your own Terraform provider. Tutorials for creating Terraform providers can be found on the [HashiCorp Developer](https://developer.hashicorp.com/terraform/tutorials/providers-plugin-framework) platform. _Terraform Plugin Framework specific guides are titled accordingly._
+## Installing The Provider
 
-Please see the [GitHub template repository documentation](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template) for how to create a new repository from this template on GitHub.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/bastosmichael/the-one-api-terraform-provider.git
+   ```
 
-Once you've written your provider, you'll want to [publish it on the Terraform Registry](https://developer.hashicorp.com/terraform/registry/providers/publishing) so that others can use it.
+2. Move to the directory:
+   ```bash
+   cd the-one-api-terraform-provider
+   ```
 
-## Requirements
+3. Build the provider:
+   ```bash
+   go build -o the-one-api-terraform-provider
+   ```
 
-- [Terraform](https://developer.hashicorp.com/terraform/downloads) >= 1.0
-- [Go](https://golang.org/doc/install) >= 1.19
+4. Move the provider to your plugins directory:
+   ```bash
+   mkdir -p ~/.terraform.d/plugins/example.com/user/theoneapi/0.1.0/linux_amd64
+   mv the-one-api-terraform-provider ~/.terraform.d/plugins/example.com/user/theoneapi/0.1.0/linux_amd64
+   ```
 
-## Building The Provider
+## Setting Up The Provider
 
-1. Clone the repository
-1. Enter the repository directory
-1. Build the provider using the Go `install` command:
+1. Configure the provider:
 
-```shell
-go install
+   In your Terraform configuration, reference the provider and supply the necessary credentials:
+
+   ```hcl
+   provider "theoneapi" {
+     api_endpoint = "https://the-one-api.dev/"
+     api_token    = "YOUR_API_TOKEN"
+   }
+   ```
+
+## Running The Provider
+
+To plan and apply your Terraform configuration:
+
+1. Initialize your configuration:
+
+   ```bash
+   terraform init
+   ```
+
+2. Plan your changes:
+
+   ```bash
+   terraform plan
+   ```
+
+3. Apply your configuration:
+
+   ```bash
+   terraform apply
+   ```
+
+## Debugging
+
+If you encounter any issues or unexpected behaviors, you can enable debug mode by setting the environment variable:
+
+```bash
+export TF_PROVIDER_DEBUG=true
 ```
 
-## Adding Dependencies
+Then run your Terraform commands.
 
-This provider uses [Go modules](https://github.com/golang/go/wiki/Modules).
-Please see the Go documentation for the most up to date information about using Go modules.
+## Running Tests
 
-To add a new dependency `github.com/author/dependency` to your Terraform provider:
+To run the provider's tests:
 
-```shell
-go get github.com/author/dependency
-go mod tidy
+```bash
+go test ./...
 ```
 
-Then commit the changes to `go.mod` and `go.sum`.
+## Publishing the Provider
 
-## Using the provider
+1. Tag your release:
 
-Fill this in for each provider
+   ```bash
+   git tag v0.1.0
+   git push --tags
+   ```
 
-## Developing the Provider
+2. Build a release binary for your platform:
 
-If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (see [Requirements](#requirements) above).
+   ```bash
+   GOOS=linux GOARCH=amd64 go build -o the-one-api-terraform-provider_v0.1.0
+   ```
 
-To compile the provider, run `go install`. This will build the provider and put the provider binary in the `$GOPATH/bin` directory.
+3. Upload the binary to the GitHub release or any other distribution method you prefer.
 
-To generate or update documentation, run `go generate`.
+Note: This is a basic guide. If your provider gains traction in the community, consider registering it with Terraform's public provider registry.
 
-In order to run the full suite of Acceptance tests, run `make testacc`.
+---
 
-*Note:* Acceptance tests create real resources, and often cost money to run.
-
-```shell
-make testacc
-```
+This README provides a basic overview for a Terraform provider. You might need to adjust paths, commands, or details to better fit your actual environment and provider's specifics.
