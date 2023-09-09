@@ -12,17 +12,17 @@ This repository contains a Terraform provider that allows you to manage resource
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/bastosmichael/the-one-api-terraform-provider.git
+   git clone https://github.com/bastosmichael/terraform-provider-theoneapi.git
    ```
 
 2. Move to the directory:
    ```bash
-   cd the-one-api-terraform-provider
+   cd terraform-provider-theoneapi
    ```
 
 3. Build the provider:
    ```bash
-   go build -o the-one-api-terraform-provider
+   go build -o terraform-provider-theoneapi
    ```
 
 4. Move the provider to your plugins directory:
