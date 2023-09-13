@@ -102,7 +102,3 @@ go test ./...
 3. Upload the binary to the GitHub release or any other distribution method you prefer.
 
 Note: This is a basic guide. If your provider gains traction in the community, consider registering it with Terraform's public provider registry.
-
----
-
-This README provides a basic overview for a Terraform provider. You might need to adjust paths, commands, or details to better fit your actual environment and provider's specifics.
